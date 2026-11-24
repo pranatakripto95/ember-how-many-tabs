@@ -40,6 +40,12 @@ if (!/^\d{1,5}$/.test(ENTRY)) {
   throw new Error(`Tab count ${JSON.stringify(ENTRY)} is not 1-5 digits`);
 }
 
+// A count of zero tabs is no answer at all: a browser open for
+// counting has at least one tab. Refuse it rather than file it.
+if (TAB_COUNT < 1) {
+  throw new Error(`Tab count ${JSON.stringify(ENTRY)} is not a real open-tabs count`);
+}
+
 const outDir = process.env.OUTPUT_DIR ?? "/output";
 const outPath = join(outDir, "entry.txt");
 mkdirSync(outDir, { recursive: true });
